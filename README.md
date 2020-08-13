@@ -19,15 +19,15 @@ Crie sua aplicação em https://suap.ifrn.edu.br/api/ com as seguintes informaç
 
 ### Instalando, Configurando e Rodando o Cliente SUAP Django
 
-Considerando que você já tenha clonado o repositório **cliente_suap_django** e instalado o PIP (https://pip.pypa.io/en/stable/installing/), abra o terminal:
+Considerando que você já tenha clonado o repositório **mel** e instalado o PIP (https://pip.pypa.io/en/stable/installing/), abra o terminal:
 
 	pip install -U virtualenv virtualenvwrapper
-	cd cliente_suap_django
-	mkvirtualenv cliente_suap_django
-	workon cliente_suap_django
+	cd mel
+	mkvirtualenv mel
+	workon mel
 	pip install -r requirements.txt
 	./manage.py migrate
-	cp cliente_suap_django/local_settings_sample.py cliente_suap_django/local_settings.py
+	cp mel/local_settings_sample.py mel/local_settings.py
 
 Faça os ajustes necessários, definindo as variáveis `SOCIAL_AUTH_SUAP_KEY` e `SOCIAL_AUTH_SUAP_SECRET` no **local_settings.py**.
 

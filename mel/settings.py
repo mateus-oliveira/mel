@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     
     'social_django',
     'minha_app',
+    # 'ssh_app',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,4 @@ except ImportError:
 
 
 LOGIN_REDIRECT_URL = '/mel/accounts/profile/'
+LOGIN_SSH_REDIRECT_URL = '/mel/ssh/'
