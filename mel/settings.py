@@ -25,7 +25,8 @@ SECRET_KEY = '7ut%ec)q5d-0mjc2^9pb8h!xo&8r7_0kc96^9x^-^9aueiotua'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mange.ifrn.edu.br']
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 
 
 # Application definition
@@ -80,8 +81,10 @@ WSGI_APPLICATION = 'mel.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': '/home/jurandy/proj/app/mel/my.cnf',
+            }
     }
 }
 
@@ -137,4 +140,4 @@ except ImportError:
     pass
 
 
-LOGIN_REDIRECT_URL = '/accounts/profile/'
+LOGIN_REDIRECT_URL = '/mel/accounts/profile/'
