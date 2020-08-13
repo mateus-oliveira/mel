@@ -1,6 +1,11 @@
 # coding: utf-8
 
 from social_core.backends.oauth import BaseOAuth2
+from minha_app.models import Usuario, UnidadeOrganizacional
+from django.core.mail import send_mail
+from django.utils.dateparse import parse_date
+
+from mel.local_settings import EMAIL_HOST_USER, MEUS_DADOS
 
 
 class SuapOAuth2(BaseOAuth2):
@@ -13,6 +18,7 @@ class SuapOAuth2(BaseOAuth2):
     REDIRECT_STATE = True
     STATE_PARAMETER = True
     USER_DATA_URL = 'https://suap.ifrn.edu.br/api/eu/'
+    STUDENT_DATA = MEUS_DADOS
     
 
     def user_data(self, access_token, *args, **kwargs):
@@ -33,9 +39,42 @@ class SuapOAuth2(BaseOAuth2):
         first_name, last_name = splitted_name[0], ''
         if len(splitted_name) > 1:
             last_name = splitted_name[-1]
+
+        dados_extras = self.student_data(response["access_token"])
+
+        usuario, criado = Usuario.objects.get_or_create(
+            identificacao = response["identificacao"],
+            nome = response["nome"],
+            email = response["email"],
+            campus = response["campus"],
+            url_foto=dados_extras["url_foto_150x200"],
+            data_nascimento=parse_date(dados_extras["data_nascimento"]),
+            # access_token = response["access_token"],
+            # refresh_token = response["refresh_token"],
+        )
+        
+        if (criado):
+            self.send_email(response['email'])
+
         return {
             'username': response[self.ID_KEY],
             'first_name': first_name.strip(),
             'last_name': last_name.strip(),
             'email': response['email'],
         }
+
+    def send_email(self, email):
+        send_mail(
+            subject="Bem vind@!",
+            message='Bem vind@ à aplicação do SUAP com Django',
+            from_email=EMAIL_HOST_USER,
+            recipient_list=[email],
+            fail_silently=True,
+        )
+    
+    def student_data(self, access_token):
+        return self.request(
+            url=self.STUDENT_DATA,
+            method='GET',
+            headers={'Authorization': 'Bearer {0}'.format(access_token)}
+        ).json()
