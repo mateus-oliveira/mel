@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Usuario, UnidadeOrganizacional, UsuarioSSH
 
-# Register your models here.
+admin.site.register(Usuario)
+admin.site.register(UsuarioSSH)
+admin.site.register(UnidadeOrganizacional)

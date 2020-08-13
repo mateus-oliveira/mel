@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'accounts/', include('django.contrib.auth.urls')),
     path('', include('minha_app.urls'), name='minha_app'),
+    # path('', include('ssh_app.urls'), name='ssh_app'),
     path('', include('social_django.urls'), name='social'),
 ]
