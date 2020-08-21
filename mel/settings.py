@@ -142,4 +142,5 @@ except ImportError:
 
 
 LOGIN_REDIRECT_URL = '/mel/accounts/profile/'
+LOGIN_URL = '/mel/accounts/profile/'
 LOGIN_SSH_REDIRECT_URL = '/mel/ssh/'

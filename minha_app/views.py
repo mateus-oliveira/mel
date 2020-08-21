@@ -19,7 +19,7 @@ def index(request):
 
 def profile(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/mel')
     return render(request, 'profile.html', {})
 
 def extra_data(request):
@@ -31,18 +31,24 @@ def extra_data(request):
     print(resposta.text)
     return HttpResponse(f'{dados}, {resposta.text}')
 
-@login_required
 def ssh(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+
     nome_usuario = request.user.email.split('@')[0]
     usuario = UsuarioSSH.objects.filter(nome_usuario=nome_usuario)
     return render(request, 'ssh.html', {'usuario_ssh': usuario})
     
-@login_required
 def ssh_iniciar(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+   
     return HttpResponse('liga SSH')
 
-@login_required
 def ssh_criar(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+   
     # Codigo para mandar email
     # Verificar se não existe
     user = request.user
