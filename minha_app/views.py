@@ -37,13 +37,22 @@ def ssh(request):
 
     nome_usuario = request.user.email.split('@')[0]
     usuario = UsuarioSSH.objects.filter(nome_usuario=nome_usuario)
-    return render(request, 'ssh.html', {'usuario_ssh': usuario})
-    
+
+    resposta = requests.get(url='http://mange-vm/cgi-bin/sasha/estado')
+    return render(request, 'ssh.html', {'usuario_ssh': usuario, 'estado_ssh': resposta.text.strip()})
+   
+# Recebe um JSON, mas só aceitar se vier do endereço IP 10.98.2.10
+# URL: /mel/ssh/cadastrar/{matricula}
+def ssh_atualiza_usuario(request):
+    pass
+
 def ssh_iniciar(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+
+    requests.get(url='http://mange-vm/cgi-bin/sasha/liga')
    
-    return HttpResponse('liga SSH')
+    return HttpResponse('SSH ligado')
 
 def ssh_criar(request):
     if not request.user.is_authenticated:

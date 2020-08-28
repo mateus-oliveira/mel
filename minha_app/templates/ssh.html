@@ -16,13 +16,16 @@
   	<section class="section">
 		  <div class="container">
 	  		<div class="content">
-                {% if usuario_ssh %}
-                    <a class="button is-success is-large" href="{% url 'ssh_iniciar' %}">
-                        Ligar SSH
-                    </a>
-                {% else %}
+                {% if not usuario_ssh %}
                     <a class="button is-success is-large" href="{% url 'ssh_criar' %}">
                         Criar conta
+                    </a>
+                    
+                {% elif estado_ssh == 'active' %}
+                    <p>Servidor ligado. Siga as instruções seguintes para acessá-lo:</p>
+                {% else %}
+                    <a class="button is-success is-large" href="{% url 'ssh_iniciar' %}">
+                        Ligar SSH
                     </a>
                 {% endif %}
 		  	</div>
